@@ -199,19 +199,19 @@ RUN
 - Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
 
-🕵🏽‍♀️ **Hematti Hamed**
+🕵🏽‍♀️ **Dominguez Faraco Alfredo**
 
 - GitHub: [GitHub Profile](https://github.com/coderacheal)
 - Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
 
-🕵🏽‍♀️ **Racheal Appiah-kubi**
+🕵🏽‍♀️ **Hemmati Hamed**
 
 - GitHub: [GitHub Profile](https://github.com/coderacheal)
 - Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
 
-🕵🏽‍♀️ **Racheal Appiah-kubi**
+🕵🏽‍♀️ **Hosseini Mahla**
 
 - GitHub: [GitHub Profile](https://github.com/coderacheal)
 - Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
