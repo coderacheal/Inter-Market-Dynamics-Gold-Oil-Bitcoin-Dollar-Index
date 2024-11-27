@@ -22,7 +22,6 @@
     - [Link to Model](#Link-to-Mode)
     - [Spin Up Docker containerl](#Spin-Up-Docker-container)
   - [👥 Authors ](#-authors-)
-  - [🔭 Future Features ](#-future-features-)
   - [🤝 Contributing ](#-contributing-)
   - [⭐️ Show your support ](#️-show-your-support-)
   - [🙏 Acknowledgments ](#-acknowledgments-)
@@ -32,58 +31,42 @@
 
 # Inter-Market Dynamics <a name="about-project"></a>
 
-**Sunday** is a chat app embed with a NLP transformer model from huggingface. The app predicts sentiment ans probability of the sentiment before and allow users to decide if they still want to send the text giving the information.
+This project investigates the inter-market dynamics between gold, crude oil, and Bitcoin, examining their collective influence on the U.S. Dollar Index (DXY). Using daily price data spanning the past decade (2014–2024), the study seeks to uncover critical patterns and dependencies among these assets and to construct a predictive model for the dollar index. Such a model could be instrumental in evaluating and mitigating portfolio risk.
 
-Sunday predicts five (5) sentiments
-- Positive 
-- Negative
-- Neutral
-- Litigious
-- Uncertainty
 
-Want to know what your texts convey? Try Sunday
-
-Note that is a pure NLP projects designed and built for eduction and academic purposes
+**Note that is a pure application is designed and built for eduction and academic purposes not for real investment**
 
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
 
 <details>
+  <summary>Best Models</summary>
+  <ul>
+    <li>CatBoost</li>
+    <li>Voting Classifier</li>
+  </ul>
+</details>
+
+<details>
   <summary>Client</summary>
   <ul>
-    <li><a href="https://react.dev">React</a></li>
+    <li><a href="https://nodejs.org">Streamlit</a></li>
   </ul>
 </details>
 
 <details>
-  <summary>Server</summary>
+  <summary>Methodology</summary>
   <ul>
-    <li><a href="https://nodejs.org">Nodemon</a></li>
-  </ul>
-  <ul>
-    <li><a href="https://nodejs.org">Express</a></li>
+    <li><a href="https://huggingface.co/docs/transformers/index">CRISP-DM</a></li>
   </ul>
 </details>
 
-<details>
-  <summary>Model</summary>
-  <ul>
-    <li><a href="https://huggingface.co/docs/transformers/index">Huggingface Mobilebert from Google</a></li>
-  </ul>
-</details>
-
-<details>
-  <summary>Socket</summary>
-    <ul>
-      <li><a href="https://socket.io">Socket.io</a></li>
-    </ul>
-  </details>
   
 <details>
-  <summary>API</summary>
+  <summary>Version Control</summary>
     <ul>
-      <li><a href="https://fastapi.tiangolo.com">FastAPI</a></li>
+      <li>Git & GitHUb</li>
     </ul>
   </details>
 
@@ -92,9 +75,9 @@ Note that is a pure NLP projects designed and built for eduction and academic pu
 
 ## Key Features <a name="key-features"></a>
 
-- **Creates a connection between two users**
-- **Can detect the sentiment of a message**
-- **Give user meaningul insights before sending the message**
+- **Predict movement in the in the dollar price index**
+- **Calculate the weight of every commodity in a portfolio**
+- **Save portfolio Information**
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -110,7 +93,7 @@ To get a local copy up and running, follow these steps.
 
 In order to run this project you need:
 
- - Node V18
+ - Streamlit
 
 Example command:
 
@@ -123,7 +106,7 @@ Example commands:
 
 ```sh
   cd my-project
-  git clone https://github.com/coderacheal/sunday.git
+  git clone https://github.com/coderacheal/Inter-Market-Dynamics-Gold-Oil-Bitcoin-Dollar-Index
 
 ```
 
@@ -134,97 +117,53 @@ Install this project with:
 Example command:
 
 ```sh
-  cd sunday
+  cd Inter-Market-Dynamics-Gold-Oil-Bitcoin-Dollar-Index
 
-  npm install
 
 ```
 
 ### Usage
 
-**To run the Frontend:**
+**To run the app:**
 
 Example command:
 
 ```sh
-  cd client
-  npm start 
 
-  OR 
-
-  cd client
-  npm run start 
+  streamlit run main.py
 
 ```
 
-**To run the Backend:**
+### Live Link
 
-Example command:
+Please find a link to the app here [here](https/huggingface/coderacheal/model/sunday)
 
-```sh
-  cd server
-  nodemon src/index.js
-```
 
-**To run the API:**
-
-Example command:
-
-```sh
-  cd api
-  uvicorn main:app --reload
-```
-
-### Link to Model
-
-Please find a link to the model hosted in Huggingface [here](https/huggingface/coderacheal/model/sunday)
-
-### Spin Up Docker container
-- Start the docker engine using the Docker desktop application
-- Once started open the terminal for the project
-
-RUN
-`docker-compose build`
-
-Once the image is done built
-
-RUN
-`docker-compose up`
 
 ## 👥 Authors <a name="authors"></a>
 
-🕵🏽‍♀️ **Racheal Appiah-kubi**
+🕵🏽‍♀️ **Appiah-kubi Racheal**
 
 - GitHub: [GitHub Profile](https://github.com/coderacheal)
-- Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
 - LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
 
 🕵🏽‍♀️ **Dominguez Faraco Alfredo**
 
-- GitHub: [GitHub Profile](https://github.com/coderacheal)
-- Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
+- GitHub: [GitHub Profile](https://github.com/alfdomi)
+- LinkedIn: [LinkedIn Profile](hhttps://www.linkedin.com/in/alfaraco/)
 
 🕵🏽‍♀️ **Hemmati Hamed**
 
-- GitHub: [GitHub Profile](https://github.com/coderacheal)
-- Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
+- GitHub: [GitHub Profile](https://github.com/hamed-hemmati)
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/hhmmti)
 
 🕵🏽‍♀️ **Hosseini Mahla**
 
-- GitHub: [GitHub Profile](https://github.com/coderacheal)
-- Twitter: [Twitter Handle](https://twitter.com/racheal_kubi)
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/racheal-appiah-kubi/)
+- GitHub: [GitHub Profile](https://github.com/mahlahsn)
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/mahlahosseinin/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- FUTURE FEATURES -->
-
-## 🔭 Future Features <a name="future-features"></a>
-
-
-- **Add chat history.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -242,7 +181,7 @@ Feel free to check the [issues page](../../issues/).
 
 ## ⭐️ Show your support <a name="support"></a>
 
-If you like this project kindly show some love, give it a 🌟 **STAR** 🌟
+If you like this project kindly show us some love, give it a 🌟 **STAR** 🌟
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -250,7 +189,7 @@ If you like this project kindly show some love, give it a 🌟 **STAR** 🌟
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I would like to thank all the free available resource made available online 
+We would like to thank all the free available resource made available online 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
