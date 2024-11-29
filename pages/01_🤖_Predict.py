@@ -119,7 +119,7 @@ def display_form(pipeline, encoder):
 
             # Save to session and file
             st.session_state['df'] = df
-            df.to_csv('./submitted_data.csv', index=False)
+            df.to_csv('./src/input_data/submitted_data.csv', index=False)
 
             # Make prediction
             prediction, probability = make_a_prediction(pipeline, encoder)

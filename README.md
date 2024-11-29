@@ -51,14 +51,14 @@ This project investigates the inter-market dynamics between gold, crude oil, and
 <details>
   <summary>Client</summary>
   <ul>
-    <li><a href="https://nodejs.org">Streamlit</a></li>
+    <li><a href="https://docs.streamlit.io/get-started">Streamlit</a></li>
   </ul>
 </details>
 
 <details>
   <summary>Methodology</summary>
   <ul>
-    <li><a href="https://huggingface.co/docs/transformers/index">CRISP-DM</a></li>
+    <li><a href="https://www.datascience-pm.com/crisp-dm-2/">CRISP-DM</a></li>
   </ul>
 </details>
 
@@ -130,13 +130,13 @@ Example command:
 
 ```sh
 
-  streamlit run main.py
+  streamlit run 🏠_Home.py
 
 ```
 
 ### Live Link
 
-Please find a link to the app here [here](https/huggingface/coderacheal/model/sunday)
+Please find a link to the app here [here]()
 
 
 
