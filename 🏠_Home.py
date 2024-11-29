@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-from utils.utils import about
+from utils import about
 
 
 st.set_page_config(

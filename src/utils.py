@@ -23,3 +23,19 @@ rolling_avg_ratios = {
 }
 
 
+about = """
+### About
+This project investigates the inter-market dynamics between gold, crude oil, and Bitcoin, examining their collective influence on the U.S. Dollar Index (DXY). Using daily price data spanning the past decade (2014–2024), the study seeks to uncover critical patterns and dependencies among these assets and to construct a predictive model for the dollar index. 
+
+### Key Features
+- **Predict movement in the in the dollar price index**
+- **Calculate the weight of every commodity in a portfolio**
+- **Save portfolio Information**
+
+### User Benefits
+- **Data-driven Decisions:** Make informed decisions backed by data analytics.
+- **Easy Machine Learning:** Utilize powerful machine learning algorithms effortlessly.
+
+"""
+
+
