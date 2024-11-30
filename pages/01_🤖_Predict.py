@@ -78,7 +78,7 @@ def display_form(pipeline, encoder):
         # Ensure investment_amt is initialized as a number
         if 'investment_amt' not in st.session_state:
             st.session_state['investment_amt'] = 1000  # Default value
-        st.number_input('Investment Amt', key='investment_amt', min_value=1000, max_value=1000000, step=1000)
+        st.number_input('Investment Amt ($)', key='investment_amt', min_value=1000, max_value=1000000, step=1000)
 
         submitted = st.form_submit_button('Calculate Portfolio')
         # submitted = st.form_submit_button('Submit')  # Add the submit button
@@ -105,6 +105,7 @@ def display_form(pipeline, encoder):
 
             #  Add ratios
             df['btc_open'] = ratios_dict['btc_open_ratio'] * st.session_state['btc_close']
+            df['dxy_open'] = ratios_dict['btc_open_ratio'] * st.session_state['investment_amt'] ### Fix this
             df['btc_high'] = ratios_dict['btc_high_ratio'] * st.session_state['btc_close']
             df['btc_low'] = ratios_dict['btc_low_ratio'] * st.session_state['btc_close']
             df['gold_open'] = ratios_dict['gold_open_ratio'] * st.session_state['gold_close']
@@ -172,7 +173,7 @@ if __name__ == "__main__":
         # Show predictions only if a form is submitted and prediction exists
         if st.session_state['prediction'] is not None:
             st.success("Prediction completed!")
-            st.write(st.session_state['df'])
+            # st.write(st.session_state['df'])
             st.write(f"##### Movement in DXY: {st.session_state['prediction']}")
             
             # Step 1: Predict DXY Movement
@@ -182,18 +183,19 @@ if __name__ == "__main__":
             # st.write(portfolio_weights)
         
             st.write((portfolio_weights["Explanation"]))
+
             st.write("##### Investment Allocation (USD):")
             for asset, allocation in portfolio_weights["Investment Allocation"].items():
-                st.write(f"- {asset}: ${allocation}")
+                st.write(f"- {asset}: ${allocation[0]:.2f}")
                     # st.write(f"##### Prediction: {st.session_state['probability']}")
 
             st.write("##### Investment Weights")
             for asset, weight in portfolio_weights["Weights"].items():
-                st.write(f"- {asset}: {round(weight, 2) * 100}%")
+                st.write(f"- {asset}: {weight[0]:.2%}")
 
             st.write("##### Sharpe Ratios (Higher = Better Risk-Adjusted Returns):")
             for asset, sharpe in portfolio_weights["Sharpe Ratios"].items():
-                st.write(f"- {asset}: {sharpe}")
+                st.write(f"- {asset}: {sharpe[0]:.2f}")
 
         else:
             st.info("Submit the form to see portfolio predictions.")
