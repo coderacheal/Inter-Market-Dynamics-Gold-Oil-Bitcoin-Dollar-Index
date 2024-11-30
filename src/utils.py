@@ -1,3 +1,9 @@
+relevant_features = ['btc_intraday_volatility', 'gold_rolling_volatility_30', 'gold_intraday_volatility',               'btc_yesterday_daily_percentage',
+                     'oil_yesterday_monthly_avg_pct_change', 'gold_yesterday_daily_percentage', 'oil_rolling_volatility_30', 'gold_yesterday_monthly_avg_pct_change',
+                     'oil_yesterday_intraday_volatility', 'gold_daily_percentage', 'Year', 'oil_daily_percentage', 'btc_rolling_volatility_30',
+                     'oil_yesterday_daily_percentage', 'gold_yesterday_intraday_volatility', 'btc_rolling_volatility_7', 'btc_yesterday_monthly_avg_pct_change',
+                     'is_holiday']
+
 ratios_dict = {
     'btc_open_ratio': 0.9992841516093321,
     'btc_high_ratio': 1.0209240906816377,
@@ -22,6 +28,23 @@ rolling_avg_ratios = {
     'gold_rolling_volatility_30': 0.7306986805336596
 }
 
+yesterday_ratios = {'btc_yesterday_Daily_ocpercentage': 0.213,
+ 'btc_yesterday_intraday_volatility': 4.411,
+ 'btc_yesterday_daily_percentage': 0.213,
+ 'btc_yesterday_weekly_avg_pct_change': 0.156,
+ 'btc_yesterday_monthly_avg_pct_change': 0.148,
+ 'oil_yesterday_Daily_ocpercentage': 0.027,
+ 'oil_yesterday_intraday_volatility': 3.531,
+ 'oil_yesterday_daily_percentage': 0.027,
+ 'oil_yesterday_weekly_avg_pct_change': -0.0,
+ 'oil_yesterday_monthly_avg_pct_change': -0.002,
+ 'gold_yesterday_Daily_ocpercentage': 0.026,
+ 'gold_yesterday_intraday_volatility': 1.304,
+ 'gold_yesterday_daily_percentage': 0.026,
+ 'gold_yesterday_weekly_avg_pct_change': 0.024,
+ 'gold_yesterday_monthly_avg_pct_change': 0.023
+ 
+ }
 
 about = """
 ### About
