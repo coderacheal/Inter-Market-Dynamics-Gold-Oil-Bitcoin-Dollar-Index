@@ -134,7 +134,7 @@ if 'probability' not in st.session_state:
     st.session_state['probability'] = None
 
 if __name__ == "__main__":
-    st.markdown("### Predict Movement in DXY")
+    st.markdown("### Portfolio Management - Movement in DXY")
 
     col1, col2 = st.columns(2)
 
