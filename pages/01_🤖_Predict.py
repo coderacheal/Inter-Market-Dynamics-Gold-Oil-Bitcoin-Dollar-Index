@@ -78,7 +78,7 @@ def display_form(pipeline, encoder):
         # Ensure investment_amt is initialized as a number
         if 'investment_amt' not in st.session_state:
             st.session_state['investment_amt'] = 1000  # Default value
-        st.number_input('Investment Amt', key='investment_amt', min_value=1000, max_value=1000000, step=1000)
+        st.number_input('Investment Amt ($)', key='investment_amt', min_value=1000, max_value=1000000, step=1000)
 
         submitted = st.form_submit_button('Calculate Portfolio')
         # submitted = st.form_submit_button('Submit')  # Add the submit button
