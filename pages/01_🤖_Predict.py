@@ -1,8 +1,10 @@
 import streamlit as st
 import joblib
 import pandas as pd
-from src.function import apply_feature_engineering
+from src.function import apply_feature_engineering, calculate_portfolio_weights
 from src.utils import ratios_dict, rolling_avg_ratios, yesterday_ratios
+
+
 
 # Set page configurations
 st.set_page_config(
@@ -43,59 +45,7 @@ def make_a_prediction(pipeline, encoder):
     saved_file_path = './src/submitted_data.csv'
     df = pd.read_csv(saved_file_path)
 
-    # Apply feature engineering
-    # engineered_df = apply_feature_engineering(df)
-    # st.write(engineered_df)
-
-                    #  RobustScaler())]),
-                    #                               ['Month', 'Year',
-                    #                                'btc_daily_percentage',
-                    #                                'gold_daily_percentage',
-                    #                                'btc_yesterday_daily_percentage',
-                    #                                'gold_yesterday_daily_percentage',
-                    #                                'btc_yesterday_w...
-                    #                                'btc_yesterday_intraday_volatility',
-                    #                                'oil_yesterday_intraday_volatility',
-                    #                                'gold_yesterday_intraday_volatility',
-                    #                                'oil_yesterday_daily_percentage',
-                    #                                'oil_yesterday_weekly_avg_pct_change',
-                    #                                'oil_yesterday_monthly_avg_pct_change'])])),
-
-    # btc_intraday_volatility = 0.04
-    # btc_daily_percentage = 0.005
-    # gold_rolling_volatility_30 = 0.003
-    # gold_intraday_volatility = 0.04
-    # btc_yesterday_daily_percentage = yesterday_ratios['btc_yesterday_daily_percentage'] #4
-    # oil_yesterday_monthly_avg_pct_change = yesterday_ratios['oil_yesterday_monthly_avg_pct_change']
-    # gold_yesterday_daily_percentage = yesterday_ratios['gold_yesterday_daily_percentage'] #5
-    # oil_rolling_volatility_30 = 0.004
-    # gold_yesterday_monthly_avg_pct_change =  yesterday_ratios['gold_yesterday_monthly_avg_pct_change']
-    # oil_yesterday_intraday_volatility =  yesterday_ratios['oil_yesterday_intraday_volatility'] #7
-    # gold_daily_percentage = 0.04 #3
-    # Year = df['Year'] #2
-    # oil_daily_percentage = 0.04
-    # btc_rolling_volatility_30 = -0.05
-    # oil_yesterday_daily_percentage = yesterday_ratios['oil_yesterday_daily_percentage']
-    # gold_yesterday_intraday_volatility =  yesterday_ratios['gold_yesterday_intraday_volatility']
-    # btc_rolling_volatility_7 = -0.0005
-    # Month = df['Month'] # 1
-    # is_holiday = df['is_holiday']
-
-    # btc_yesterday_intraday_volatility = 0.003 #6
-
-    # oil_yesterday_weekly_avg_pct_change = 0.0003
-
-
-    # relevant_features = ['btc_intraday_volatility', 'gold_rolling_volatility_30', 'gold_intraday_volatility',               'btc_yesterday_daily_percentage',
-    #                  'oil_yesterday_monthly_avg_pct_change', 'gold_yesterday_daily_percentage', 'oil_rolling_volatility_30', 'gold_yesterday_monthly_avg_pct_change',
-    #                  'oil_yesterday_intraday_volatility', 'gold_daily_percentage', 'Year', 'oil_daily_percentage', 'btc_rolling_volatility_30',
-    #                  'oil_yesterday_daily_percentage', 'gold_yesterday_intraday_volatility', 'btc_rolling_volatility_7', 'Month',
-    #                  'is_holiday']
-
-    # # columns = relevant_features
-    # data = [[btc_intraday_volatility, gold_rolling_volatility_30, gold_intraday_volatility, btc_yesterday_daily_percentage, oil_yesterday_monthly_avg_pct_change, gold_yesterday_daily_percentage, oil_rolling_volatility_30,gold_yesterday_monthly_avg_pct_change,  oil_yesterday_intraday_volatility, gold_daily_percentage, Year, oil_daily_percentage, btc_rolling_volatility_30,  oil_yesterday_daily_percentage, gold_yesterday_intraday_volatility, btc_rolling_volatility_7,Month, is_holiday ]]
-
-    # df = pd.DataFrame(data, columns=relevant_features)
+    df = apply_feature_engineering(df)
 
     print("Available columns:", df.columns)
 
@@ -113,20 +63,28 @@ def make_a_prediction(pipeline, encoder):
 
     return prediction[0], probability[0].tolist()
 
+
+
 def display_form(pipeline, encoder):
     with st.form('input-feature'):
         st.write('#### Assets')
-        st.number_input('GOLD PRICE ($)', key='gold_close', min_value=1050, max_value=3000, step=1)
-        st.number_input('OIL PRICE ($)', key='oil_close', min_value=11, max_value=150, step=1)
-        st.number_input('BITCOIN PRICE ($)', key='btc_close', min_value=179, max_value=90000, step=1)
-
-        st.write('#### Meta Data')
+        st.number_input('GOLD PRICE ($)', key='gold_close', min_value=1050, max_value=3000, step=10)
+        st.number_input('OIL PRICE ($)', key='oil_close', min_value=11, max_value=150, step=10)
+        st.number_input('BITCOIN PRICE ($)', key='btc_close', min_value=25000, max_value=90000, step=100)
         st.date_input("Select today's date", key='today_date')
         st.checkbox('Is today a holiday?', key='is_holiday')
+        st.write('#### Investment Amount')
+        # Ensure investment_amt is initialized as a number
+        if 'investment_amt' not in st.session_state:
+            st.session_state['investment_amt'] = 1000  # Default value
+        st.number_input('Investment Amt', key='investment_amt', min_value=1000, max_value=1000000, step=1000)
 
         submitted = st.form_submit_button('Calculate Portfolio')
+        # submitted = st.form_submit_button('Submit')  # Add the submit button
 
         if submitted:
+            # st.session_state['investment_amt'] = st.session_state['investment_amt']
+
             # Collect form data
             data = {
                 "gold_close": [st.session_state['gold_close']],
@@ -143,6 +101,7 @@ def display_form(pipeline, encoder):
             df['Date'] = pd.to_datetime(df['Date'])
             df['Year'] = df['Date'].dt.year
             df['Month'] = df['Date'].dt.month
+
 
             #  Add ratios
             df['btc_open'] = ratios_dict['btc_open_ratio'] * st.session_state['btc_close']
@@ -166,15 +125,14 @@ def display_form(pipeline, encoder):
             df['gold_rolling_volatility_7'] = rolling_avg_ratios['gold_rolling_volatility_7']
             df['gold_rolling_volatility_30'] = rolling_avg_ratios['gold_rolling_volatility_30']
 
-            df['btc_yesterday_intraday_volatility'] = 0
-            df['btc_daily_percentage'] = 0
-            df['btc_yesterday_weekly_avg_pct_change'] = 0
-            df['oil_rolling_volatility_7'] = 0
-            df['btc_yesterday_monthly_avg_pct_change'] = 0
-            df['oil_intraday_volatility'] = 0
-            df['gold_yesterday_weekly_avg_pct_change'] = 0
-            df['oil_yesterday_weekly_avg_pct_change'] = 0
-            df['gold_rolling_volatility_7'] = 0
+            
+            df['gold_yesterday_intraday_volatility'] = yesterday_ratios['gold_yesterday_intraday_volatility']
+            df['oil_yesterday_monthly_avg_pct_change'] =  yesterday_ratios['oil_yesterday_monthly_avg_pct_change']
+            df['gold_yesterday_daily_percentage'] =  yesterday_ratios['gold_yesterday_daily_percentage']
+            df['btc_yesterday_daily_percentage'] =  yesterday_ratios['btc_yesterday_daily_percentage']
+            df['oil_yesterday_daily_percentage'] =  yesterday_ratios['oil_yesterday_daily_percentage']
+            df['oil_yesterday_intraday_volatility'] =  yesterday_ratios['oil_yesterday_intraday_volatility']
+            df['gold_yesterday_monthly_avg_pct_change'] =  yesterday_ratios['gold_yesterday_monthly_avg_pct_change']
 
             # Drop unneeded columns
             df.drop(['Date'], axis=1, inplace=True)
@@ -191,6 +149,8 @@ def display_form(pipeline, encoder):
 
 
 # Main script
+# st.session_state['investment_amt'] = ''
+
 if 'prediction' not in st.session_state:
     st.session_state['prediction'] = None
 if 'probability' not in st.session_state:
@@ -206,11 +166,39 @@ if __name__ == "__main__":
         display_form(pipeline, encoder)
 
     with col2:
+
         # Show predictions only if a form is submitted and prediction exists
         if st.session_state['prediction'] is not None:
             st.success("Prediction completed!")
             st.write(st.session_state['df'])
-            st.write(f"##### Prediction: {st.session_state['prediction']}")
-            st.write(f"##### Prediction: {st.session_state['probability']}")
+            st.write(f"##### Movement in DXY: {st.session_state['prediction']}")
+
+            
+            # Step 1: Predict DXY Movement
+            dxy_prediction = st.session_state['prediction']
+
+            portfolio_weights = calculate_portfolio_weights(st.session_state['df'], dxy_prediction, st.session_state['investment_amt'])
+            st.write(portfolio_weights)
+            
+            # print(portfolio_weights)
+
+            # if "Error" in portfolio_weights:
+            #     print(portfolio_weights["Error"])
+            # if:
+                # print(f"\nPortfolio Weights for {portfolio_weights['Date']} ({portfolio_weights['Strategy']}):")
+
+            st.write((portfolio_weights["Explanation"]))
+
+            for asset, weight in portfolio_weights["Weights"].items():
+                print(f"- {asset}: {weight:.2%}")
+
+            print("\nSharpe Ratios (Higher = Better Risk-Adjusted Returns):")
+            for asset, sharpe in portfolio_weights["Sharpe Ratios"].items():
+                print(f"- {asset}: {sharpe:.2f}")
+
+            print(f"\nInvestment Allocation (USD):")
+            for asset, allocation in portfolio_weights["Investment Allocation"].items():
+                print(f"- {asset}: ${allocation:.2f}")
+                    # st.write(f"##### Prediction: {st.session_state['probability']}")
         else:
             st.info("Submit the form to see portfolio predictions.")

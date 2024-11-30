@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 # Path to the engineered data file
-engineered_file_path = './src/input_data/engineered_data.csv'
+engineered_file_path = '../src/submitted_data.csv'
 
 # Load and display the data
 st.markdown("## Data Preview")
