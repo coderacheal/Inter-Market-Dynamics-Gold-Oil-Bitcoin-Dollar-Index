@@ -14,6 +14,9 @@ ratios_dict = {
     'oil_open_ratio': 1.0010156851006673,
     'oil_high_ratio': 1.0179860364714555,
     'oil_low_ratio': 0.9824473583988186,
+    'btc_intraday_volatility':0.06, # btc_intraday_volatility
+    'gold_intraday_volatility':0.0056, # gold_intraday_volatility
+    'oil_intraday_volatility': 0.03,# btc_intraday_volatility
 }
 
 rolling_avg_ratios = {

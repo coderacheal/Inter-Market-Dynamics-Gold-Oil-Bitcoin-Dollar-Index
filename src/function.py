@@ -1,4 +1,5 @@
 import pandas as pd
+
 # yesterday_ratios = {'btc_yesterday_Daily_ocpercentage': 0.213,
 #  'btc_yesterday_intraday_volatility': 4.411,
 #  'btc_yesterday_daily_percentage': 0.213,
@@ -90,12 +91,12 @@ def apply_feature_engineering(df):
         # Calculate rolling volatility of daily percentage changes over 7-day and 30-day windows
         df[f'{asset}_daily_percentage'] = df[f'{asset}_close'].pct_change() * 100
 
-        # # Calculate rolling volatilities
-        # df[f'{asset}_rolling_volatility_7'] = df[f'{asset}_daily_percentage'].rolling(window=7).std()
-        # df[f'{asset}_rolling_volatility_30'] = df[f'{asset}_daily_percentage'].rolling(window=30).std()
+        # Calculate rolling volatilities
+        df[f'{asset}_rolling_volatility_7'] = df[f'{asset}_daily_percentage'].rolling(window=7).std()
+        df[f'{asset}_rolling_volatility_30'] = df[f'{asset}_daily_percentage'].rolling(window=30).std()
 
-        # # Calculate yesterday's ocpercentage for each asset
-        # # df[f'{asset}_yesterday_Daily_ocpercentage'] = df[f'{asset}_daily_percentage'].shift(1)
+        # Calculate yesterday's ocpercentage for each asset
+        # df[f'{asset}_yesterday_Daily_ocpercentage'] = df[f'{asset}_daily_percentage'].shift(1)
 
         # # Calculate yesterday's intraday volatility for each asset
         # df[f'{asset}_yesterday_intraday_volatility'] = df[f'{asset}_intraday_volatility'].shift(1)
@@ -141,16 +142,13 @@ def calculate_portfolio_weights(df, predicted_movement, investment_amount):
     risk_free_rate = 0.02
 
     # Extract intraday volatilities for the specified date
-    try:
-        btc_volatility = df['btc_intraday_volatility']
-        gold_volatility = df['gold_intraday_volatility']
-        oil_volatility = df['oil_intraday_volatility']
-    except KeyError:
-        return {"Error": "Missing volatility columns in the DataFrame."}
-
-    # Check for NaN values
-    if pd.isna(btc_volatility) or pd.isna(gold_volatility) or pd.isna(oil_volatility):
-        return {"Error": "Missing volatility data for the specified date."}
+    btc_volatility = df.get('btc_intraday_volatility', pd.Series([None][0]))
+    gold_volatility = df.get('gold_intraday_volatility', pd.Series([None][0]))
+    oil_volatility = df.get('oil_intraday_volatility', pd.Series([None][0]))
+    
+    # Check for missing data in volatilities
+    if pd.isna(btc_volatility).any() or pd.isna(gold_volatility).any() or pd.isna(oil_volatility).any():
+        raise ValueError("Missing volatility values. Ensure all required features are present.")
 
     # Calculate Sharpe Ratios
     sharpe_ratios = {
@@ -174,14 +172,13 @@ def calculate_portfolio_weights(df, predicted_movement, investment_amount):
       explanation = "Allocating based on inverse volatilities to prioritize lower-risk assets."
       # Re-weight assets based on inverse volatilities
       weights = {asset: 1 / vol for asset, vol in zip(weights.keys(), [btc_volatility, gold_volatility, oil_volatility])}
-      total_inverse_vol = sum(weights.values())
+      total_inverse_vol = int(sum(weights.values()))
       weights = {asset: weight / total_inverse_vol for asset, weight in weights.items()}
 
     elif predicted_movement == "Stable":
       strategy = "Equal Weighting"
       explanation = "Allocating equally across all assets for balanced exposure."
-      # Equal allocation across all assets
-      num_assets = len(weights)
+      num_assets = int(len(weights))
       weights = {asset: 1 / num_assets for asset in weights}
 
     # Calculate investment allocation

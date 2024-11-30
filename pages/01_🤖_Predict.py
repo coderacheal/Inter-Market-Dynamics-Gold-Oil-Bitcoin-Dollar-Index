@@ -47,7 +47,8 @@ def make_a_prediction(pipeline, encoder):
 
     df = apply_feature_engineering(df)
 
-    print("Available columns:", df.columns)
+    # print("Available columns:", df.columns)
+    st.session_state['df`'] = df
 
     # Make prediction
     pred = pipeline.predict(df)
@@ -83,7 +84,6 @@ def display_form(pipeline, encoder):
         # submitted = st.form_submit_button('Submit')  # Add the submit button
 
         if submitted:
-            # st.session_state['investment_amt'] = st.session_state['investment_amt']
 
             # Collect form data
             data = {
@@ -134,6 +134,11 @@ def display_form(pipeline, encoder):
             df['oil_yesterday_intraday_volatility'] =  yesterday_ratios['oil_yesterday_intraday_volatility']
             df['gold_yesterday_monthly_avg_pct_change'] =  yesterday_ratios['gold_yesterday_monthly_avg_pct_change']
 
+            #  Add ratios
+            df['btc_intraday_volatility'] = ratios_dict['btc_intraday_volatility'] 
+            df['gold_intraday_volatility'] = ratios_dict['gold_intraday_volatility'] 
+            df['oil_intraday_volatility'] = ratios_dict['oil_intraday_volatility'] 
+
             # Drop unneeded columns
             df.drop(['Date'], axis=1, inplace=True)
 
@@ -149,8 +154,6 @@ def display_form(pipeline, encoder):
 
 
 # Main script
-# st.session_state['investment_amt'] = ''
-
 if 'prediction' not in st.session_state:
     st.session_state['prediction'] = None
 if 'probability' not in st.session_state:
@@ -166,39 +169,31 @@ if __name__ == "__main__":
         display_form(pipeline, encoder)
 
     with col2:
-
         # Show predictions only if a form is submitted and prediction exists
         if st.session_state['prediction'] is not None:
             st.success("Prediction completed!")
             st.write(st.session_state['df'])
             st.write(f"##### Movement in DXY: {st.session_state['prediction']}")
-
             
             # Step 1: Predict DXY Movement
             dxy_prediction = st.session_state['prediction']
 
             portfolio_weights = calculate_portfolio_weights(st.session_state['df'], dxy_prediction, st.session_state['investment_amt'])
-            st.write(portfolio_weights)
-            
-            # print(portfolio_weights)
-
-            # if "Error" in portfolio_weights:
-            #     print(portfolio_weights["Error"])
-            # if:
-                # print(f"\nPortfolio Weights for {portfolio_weights['Date']} ({portfolio_weights['Strategy']}):")
-
+            # st.write(portfolio_weights)
+        
             st.write((portfolio_weights["Explanation"]))
-
-            for asset, weight in portfolio_weights["Weights"].items():
-                print(f"- {asset}: {weight:.2%}")
-
-            print("\nSharpe Ratios (Higher = Better Risk-Adjusted Returns):")
-            for asset, sharpe in portfolio_weights["Sharpe Ratios"].items():
-                print(f"- {asset}: {sharpe:.2f}")
-
-            print(f"\nInvestment Allocation (USD):")
+            st.write("##### Investment Allocation (USD):")
             for asset, allocation in portfolio_weights["Investment Allocation"].items():
-                print(f"- {asset}: ${allocation:.2f}")
+                st.write(f"- {asset}: ${allocation}")
                     # st.write(f"##### Prediction: {st.session_state['probability']}")
+
+            st.write("##### Investment Weights")
+            for asset, weight in portfolio_weights["Weights"].items():
+                st.write(f"- {asset}: {round(weight, 2) * 100}%")
+
+            st.write("##### Sharpe Ratios (Higher = Better Risk-Adjusted Returns):")
+            for asset, sharpe in portfolio_weights["Sharpe Ratios"].items():
+                st.write(f"- {asset}: {sharpe}")
+
         else:
             st.info("Submit the form to see portfolio predictions.")
