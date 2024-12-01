@@ -5,7 +5,6 @@ from src.function import apply_feature_engineering, calculate_portfolio_weights
 from src.utils import ratios_dict, rolling_avg_ratios, yesterday_ratios
 
 
-
 # Set page configurations
 st.set_page_config(
     page_title='Prediction',
@@ -17,7 +16,7 @@ st.set_page_config(
 st.cache_resource()
 def load_forest_pipeline():
     pipeline = joblib.load('./models/random_forest.joblib')
-    print(pipeline)
+    # print(pipeline)
     return pipeline
 
 st.cache_resource()
