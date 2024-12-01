@@ -1,3 +1,6 @@
 /venv
 /Presentations
 /.DS_Store
+/label_encoder.joblib
+/random_forest.joblib
+/stacking_classifier.joblib
