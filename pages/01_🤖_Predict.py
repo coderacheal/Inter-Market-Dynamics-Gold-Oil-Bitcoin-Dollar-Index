@@ -1,8 +1,10 @@
 import streamlit as st
 import joblib
 import pandas as pd
-from src.function import apply_feature_engineering, calculate_portfolio_weights
+from src.functions import apply_feature_engineering, calculate_portfolio_weights
 from src.utils import ratios_dict, rolling_avg_ratios, yesterday_ratios
+import random
+import requests
 
 
 # Set page configurations
@@ -39,6 +41,7 @@ def select_model():
     encoder = load_encoder()
     return pipeline, encoder
 
+
 def make_a_prediction(pipeline, encoder):
     # Load the saved data
     saved_file_path = './src/submitted_data.csv'
@@ -46,7 +49,7 @@ def make_a_prediction(pipeline, encoder):
 
     df = apply_feature_engineering(df)
 
-    # print("Available columns:", df.columns)
+    # print("Available columns:", df.columns)_++
     st.session_state['df`'] = df
 
     # Make prediction
@@ -84,6 +87,8 @@ def display_form(pipeline, encoder):
 
         if submitted:
 
+            dxy_open = random.uniform(94, 114)
+
             # Collect form data
             data = {
                 "gold_close": [st.session_state['gold_close']],
@@ -104,7 +109,7 @@ def display_form(pipeline, encoder):
 
             #  Add ratios
             df['btc_open'] = ratios_dict['btc_open_ratio'] * st.session_state['btc_close']
-            df['dxy_open'] = ratios_dict['btc_open_ratio'] * st.session_state['investment_amt'] ### Fix this
+            df['dxy_open'] = dxy_open
             df['btc_high'] = ratios_dict['btc_high_ratio'] * st.session_state['btc_close']
             df['btc_low'] = ratios_dict['btc_low_ratio'] * st.session_state['btc_close']
             df['gold_open'] = ratios_dict['gold_open_ratio'] * st.session_state['gold_close']
@@ -185,16 +190,25 @@ if __name__ == "__main__":
 
             st.write("##### Investment Allocation (USD):")
             for asset, allocation in portfolio_weights["Investment Allocation"].items():
-                st.write(f"- {asset}: ${allocation[0]:.2f}")
+                try:
+                    st.write(f"- {asset}: ${allocation:.2f}")  # For scalar allocation
+                except (TypeError, IndexError):
+                    st.write(f"- {asset}: ${allocation[0]:.2f}")  # For iterable allocation
                     # st.write(f"##### Prediction: {st.session_state['probability']}")
 
             st.write("##### Investment Weights")
             for asset, weight in portfolio_weights["Weights"].items():
-                st.write(f"- {asset}: {weight[0]:.2%}")
+                try:
+                    st.write(f"- {asset}: {weight:.2%}") # For scalar allocation
+                except (TypeError, IndexError):
+                    st.write(f"- {asset}: {weight[0]:.2%}")# For iterable allocation
 
             st.write("##### Sharpe Ratios (Higher = Better Risk-Adjusted Returns):")
             for asset, sharpe in portfolio_weights["Sharpe Ratios"].items():
-                st.write(f"- {asset}: {sharpe[0]:.2f}")
+                try:
+                    st.write(f"- {asset}: {sharpe:.2%}") # For scalar allocation
+                except (TypeError, IndexError):
+                    st.write(f"- {asset}: {sharpe[0]:.2f}") # For iterable allocation
 
         else:
             st.info("Submit the form to see portfolio predictions.")
