@@ -4,8 +4,6 @@ import pandas as pd
 from src.functions import apply_feature_engineering, calculate_portfolio_weights
 from src.utils import ratios_dict, rolling_avg_ratios, yesterday_ratios
 import random
-import requests
-
 
 # Set page configurations
 st.set_page_config(
@@ -77,7 +75,7 @@ def display_form(pipeline, encoder):
         st.date_input("Select today's date", key='today_date')
         st.checkbox('Is today a holiday?', key='is_holiday')
         st.write('#### Investment Amount')
-        
+
         # Ensure investment_amt is initialized as a number
         if 'investment_amt' not in st.session_state:
             st.session_state['investment_amt'] = 1000  # Default value
@@ -88,7 +86,11 @@ def display_form(pipeline, encoder):
 
         if submitted:
 
-            dxy_open = random.uniform(94, 114)
+            # Define your list
+            my_list = [89, 103.8419, 109.788]
+
+            # Randomly select 3 numbers
+            dxy_open = random.sample(my_list, 1)
 
             # Collect form data
             data = {
@@ -110,7 +112,7 @@ def display_form(pipeline, encoder):
 
             #  Add ratios
             df['btc_open'] = ratios_dict['btc_open_ratio'] * st.session_state['btc_close']
-            df['dxy_open'] = 110
+            df['dxy_open'] = dxy_open
             df['btc_high'] = ratios_dict['btc_high_ratio'] * st.session_state['btc_close']
             df['btc_low'] = ratios_dict['btc_low_ratio'] * st.session_state['btc_close']
             df['gold_open'] = ratios_dict['gold_open_ratio'] * st.session_state['gold_close']

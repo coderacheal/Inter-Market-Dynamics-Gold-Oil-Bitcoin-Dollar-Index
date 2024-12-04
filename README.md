@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h1><b>Inter-Market Dynamics: Predicting Movements in the U.S. Dollar Index Based on Gold, Crude Oil, and Bitcoin Trends</b></h1>
+  <h1><b>Inter-Market Dynamics: Exploring Relationships Between the U.S. Dollar Index and Key Commodities</b></h1>
 </div>
 
 
@@ -43,15 +43,22 @@ This project investigates the inter-market dynamics between gold, crude oil, and
 <details>
   <summary>Best Models</summary>
   <ul>
-    <li>CatBoost</li>
-    <li>Voting Classifier</li>
+    <li>Random Forest</li>
+    <li>Stacking Classifier</li>
   </ul>
 </details>
 
 <details>
-  <summary>Client</summary>
+  <summary>Front end</summary>
   <ul>
     <li><a href="https://docs.streamlit.io/get-started">Streamlit</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>API</summary>
+  <ul>
+    <li><a href="https://fastapi.tiangolo.com/">FastAPI</a></li>
   </ul>
 </details>
 
@@ -62,7 +69,6 @@ This project investigates the inter-market dynamics between gold, crude oil, and
   </ul>
 </details>
 
-  
 <details>
   <summary>Version Control</summary>
     <ul>
@@ -100,9 +106,7 @@ Example command:
 
 ### Setup
 
-Clone this repository to your desired folder:
-
-Example commands:
+Command to clone this repository to your desired folder:
 
 ```sh
   cd my-project
@@ -114,29 +118,48 @@ Example commands:
 
 Install this project with:
 
-Example command:
-
 ```sh
   cd Inter-Market-Dynamics-Gold-Oil-Bitcoin-Dollar-Index
 
+```
+
+### Install dependencies
+
+```sh
+  pip install requirements.txt
 
 ```
 
+
 ### Usage
 
-**To run the app:**
-
-Example command:
+**Command To run the app:**
 
 ```sh
 
   streamlit run 🏠_Home.py
 
+OR
+
+  python -m streamlit run 🏠_Home.py
+
+```
+
+**Command To run the API:**
+
+```sh
+
+  uvicorn api.ml_endpoints:app --reload
+
+OR
+
+  python -m uvicorn api.ml_endpoints:app --reload
+
 ```
 
 ### Live Link
 
-Please find a link to the app here [here]()
+Please find a link to the app here [here](https://inter-market-dynamics-gold-oil-bitcoin.onrender.com)
 
 
 
