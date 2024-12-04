@@ -73,10 +73,11 @@ def display_form(pipeline, encoder):
         st.write('#### Assets')
         st.number_input('GOLD PRICE ($)', key='gold_close', min_value=1050, max_value=3000, step=10)
         st.number_input('OIL PRICE ($)', key='oil_close', min_value=11, max_value=150, step=10)
-        st.number_input('BITCOIN PRICE ($)', key='btc_close', min_value=25000, max_value=90000, step=100)
+        st.number_input('BITCOIN PRICE ($)', key='btc_close', min_value=250, max_value=90000, step=100)
         st.date_input("Select today's date", key='today_date')
         st.checkbox('Is today a holiday?', key='is_holiday')
         st.write('#### Investment Amount')
+        
         # Ensure investment_amt is initialized as a number
         if 'investment_amt' not in st.session_state:
             st.session_state['investment_amt'] = 1000  # Default value
@@ -109,7 +110,7 @@ def display_form(pipeline, encoder):
 
             #  Add ratios
             df['btc_open'] = ratios_dict['btc_open_ratio'] * st.session_state['btc_close']
-            df['dxy_open'] = dxy_open
+            df['dxy_open'] = 110
             df['btc_high'] = ratios_dict['btc_high_ratio'] * st.session_state['btc_close']
             df['btc_low'] = ratios_dict['btc_low_ratio'] * st.session_state['btc_close']
             df['gold_open'] = ratios_dict['gold_open_ratio'] * st.session_state['gold_close']
