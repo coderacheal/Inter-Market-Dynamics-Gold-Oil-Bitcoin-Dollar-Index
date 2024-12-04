@@ -145,6 +145,16 @@ OR
 
 ```
 
+
+### Live Link (App)
+
+Please find a link to the app here [here](https://inter-market-dynamics-gold-oil-bitcoin.onrender.com)
+
+
+
+
+### API
+
 **Command To run the API:**
 
 ```sh
@@ -156,11 +166,7 @@ OR
   python -m uvicorn api.ml_endpoints:app --reload
 
 ```
-
-### Live Link
-
-Please find a link to the app here [here](https://inter-market-dynamics-gold-oil-bitcoin.onrender.com)
-
+![image](https://github.com/user-attachments/assets/39c1f268-4311-4c55-b00d-0c89b630f8e5)
 
 
 ## 👥 Authors <a name="authors"></a>
